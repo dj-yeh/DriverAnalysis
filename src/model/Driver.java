@@ -35,7 +35,7 @@ public class Driver
 	//-------------------------------------------------------------------------------------------------------------------
 	//CONSTRUCTOR
 	/**
-	 * Constructor for each driving participant.
+	 * General constructor for each driving participant.
 	 * 
 	 * @param participantID de-identified ID of a participant in the study
 	 * @param numYawns Number of times participant yawned.
@@ -46,6 +46,16 @@ public class Driver
 		this.setParticipantID(participantID);
 		this.setNumYawns(numYawns);
 		this.setAvoidEvent(avoidEvent);
+		this.drivingPositions = new ArrayList<PositionTuple>();
+	}
+	
+	/**
+	 * Constructor for a driver where the instance variable information is unknown at the moment. 
+	 * Calls the most general constructor.
+	 */
+	public Driver()
+	{
+		this(0, 0, false);
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------------
@@ -103,7 +113,6 @@ public class Driver
 	{
 		return this.avoidEvent;
 	}
-	
 	/**
 	 * Getter method for the variable drivingPositions
 	 * @return All the driving positions of the participant during the simulation.

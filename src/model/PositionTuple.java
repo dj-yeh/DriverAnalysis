@@ -49,7 +49,7 @@ public class PositionTuple
 	//-------------------------------------------------------------------------------------------------------------------
 	//CONSTRUCTOR
 	/**
-	 * Constructor for each position state the participant was in during their drive.
+	 * General Constructor for each position state the participant was in during their drive.
 	 * @param frame The starting frame of the driving position.
 	 * @param autopilotOn True if the autopilot is turned on.
 	 * @param numHands The number of hands on the steering wheel.
@@ -70,6 +70,15 @@ public class PositionTuple
 		this.setEyesOnRoad(eyesOnRoad);
 		this.setDuration(duration);
 	};
+	
+	/**
+	 * A more specific constructor for the class which is used when no information is known.
+	 * It calls the more general constructor, passing default values to instantiate the instance variables
+	 */
+	public PositionTuple()
+	{
+		this(0, false, 0, 0, 0, false, 0);
+	}
 	//-------------------------------------------------------------------------------------------------------------------
 	//-------------------------------------------------------------------------------------------------------------------
 	//INTERFACE/SETTER AND GETTERS
