@@ -1,5 +1,6 @@
 package controller;
 
+import model.DataCube;
 import model.Driver;
 import model.PositionTuple;
 
@@ -7,11 +8,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Scanner;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import dimensions.AutopilotDim;
+
 import org.apache.poi.ss.usermodel.CellType;
 
 /**
@@ -25,14 +30,20 @@ public class Analyzer
 	 */
 	public static ArrayList<Driver> drivers;
 	
+	public static DataCube d;
+	
 	
 	public static void main(String[] args) 
 	{
-		
 		importData();
 		siftBadData();
-		printData();
+		calculateDurationOfTuples();
+		calculateTotalNumOfTuples();
+		//printData();
+		queryData();
 	}
+	
+	//--------------------------------------Analyzing Methods-------------------------------------------
 	
 	/**
 	 * This method imports all the data from the Excel Spreadsheet.
@@ -147,18 +158,10 @@ public class Analyzer
             e.printStackTrace();
         }
 		
-		//-----------------------------------------------Calculate Number of Frames Instance Var---------------------------
-		for(int i = 0; i < Analyzer.drivers.size(); i++)
-		{
-			Driver driver = Analyzer.drivers.get(i);
-			for(int x = 0; x < driver.getDrivingPositions().size() - 1; x++)
-			{
-				PositionTuple tuple = driver.getDrivingPositions().get(x);
-				PositionTuple tuple_1 = driver.getDrivingPositions().get(x + 1);
-				tuple.setDuration(tuple_1.getFrame() - tuple.getFrame());
-			}
-			driver.getDrivingPositions().get(driver.getDrivingPositions().size() - 1).setDuration(100);
-		}
+		
+		
+		
+		
 
 	}
 	
@@ -219,5 +222,138 @@ public class Analyzer
 		}
 		
 	}
+	
+	public static void calculateDurationOfTuples()
+	{
+		//-----------------------------------------------Calculate Number of Frames Instance Var---------------------------
+		for(int i = 0; i < Analyzer.drivers.size(); i++)
+		{
+			Driver driver = Analyzer.drivers.get(i);
+			for(int x = 0; x < driver.getDrivingPositions().size() - 1; x++)
+			{
+				PositionTuple tuple = driver.getDrivingPositions().get(x);
+				PositionTuple tuple_1 = driver.getDrivingPositions().get(x + 1);
+				tuple.setDuration(tuple_1.getFrame() - tuple.getFrame());
+			}
+			driver.getDrivingPositions().get(driver.getDrivingPositions().size() - 1).setDuration(100);
+		}
+	}
+	
+	public static void calculateTotalNumOfTuples()
+	{
+		//---------------------------------Calculates the total number of "tuples" in the database-----------------------------------------
+		Analyzer.numTuples = 0;
+		for (int i = 0; i < Analyzer.drivers.size(); i++) 
+		{
+			Driver driver = Analyzer.drivers.get(i);
+			ArrayList<PositionTuple> tuples = driver.getDrivingPositions();
+			for (int j = 0; j < tuples.size(); j++) 
+			{
+				Analyzer.numTuples += tuples.get(j).getDuration();
+			}
+		}
+		//System.out.println(Analyzer.numTuples);
+	}
+	
+	/**
+	 * This method will allow the user to query the dataset.
+	 */
+	public static void queryData()
+	{
+		int choice = -1;
+		
+		while(choice != 0)
+		{
+			//prints out directions for the user
+			System.out.println("What type of query would you like to perform?"
+					+ "(Please enter the number associated with the operation and 0 to quit at any time.)");
+			System.out.println("0:Quit");
+			System.out.println("1:Conditional Probability");
+			System.out.println("2:Frequent Itemset Analysis");
+			
+			//setting up ability to take user input
+			Scanner sc = new Scanner(System.in);
+			choice = sc.nextInt();
+			
+			
+			switch (choice) {
+				case 0:
+					break;
+				case 1:
+					System.out.println();
+					System.out.println("With resepct to which of the following attributes would you like to "
+							+ "calculate the conditional probability of crashing?");
+					System.out.println("0: Quit");
+					System.out.println("1: Yawning");
+					System.out.println("2: Age");
+					choice = sc.nextInt();
+					ArrayList<Double> condProb;
+					if(choice == 0)
+					{
+						break;
+					}
+					else
+					{
+						condProb = Algorithms.conditionalProb(choice);
+					}
+					
+					for(int i = 0; i < condProb.size(); i++)
+					{
+						System.out.println();
+						if(i == 0)
+						{
+							System.out.println("Probability of Crashing: " + condProb.get(i) + "%");
+							i++;
+							System.out.println("People in the Universe: " + condProb.get(i));
+						}
+						else if(i == 1)
+						{
+							System.out.println("Conditional Probability of Crashing: " + condProb.get(i) + "%");
+							i++;
+							System.out.println("People in the Universe: " + condProb.get(i));
+						}
+						else
+						{
+							System.out.println("Conditional Probability of Crashing(no yawning): " + condProb.get(i) + "%");
+							i++;
+							System.out.println("People in the Universe: " + condProb.get(i));
+						}
+					}
+
+					
+					break;
+				case 2:
+					//Algorithms.frequentItemsets(0);
+					break;
+				default:
+					System.out.println("That is not a valid choice.");
+					break;
+					
+					
+					
+			}
+			System.out.println();
+			
+		}
+	}
+	
+	
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

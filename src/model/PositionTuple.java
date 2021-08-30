@@ -1,5 +1,11 @@
 package model;
 
+import dimensions.AutopilotDim;
+import dimensions.EyePositionDim;
+import dimensions.FootPlacementDim;
+import dimensions.HandPlacementDim;
+import dimensions.NumHandsDim;
+
 /**
  * 
  * @author dj_yeh
@@ -9,6 +15,7 @@ package model;
 
 public class PositionTuple 
 {
+	//GOOD
 	//-------------------------------------------------------------------------------------------------------------------
 	//INSTANCE VARIABLES
 	/**
@@ -19,27 +26,37 @@ public class PositionTuple
 	/**
 	 * True if the autopilot is turned on.
 	 */
-	private boolean autopilotOn;
+	//private boolean autopilotOn;
+	
+	private AutopilotDim autopilotOn;
 	
 	/**
 	 * The number of hands on the steering wheel.
 	 */
-	private int numHands;
+	//private int numHands;
+	
+	private NumHandsDim numHands;
 	
 	/**
 	 * Position of a hand based on a ranking system. The larger the number, the worse the position.
 	 */
-	private int handPlacement;
+	//private int handPlacement;
+	
+	private HandPlacementDim handPlacement;
 	
 	/**
 	 * Position of their right foot based on a ranking system. The larger the number, the worse the position.
 	 */
-	private int footPlacement;
+	//private int footPlacement;
+	
+	private FootPlacementDim footPlacement;
 	
 	/**
 	 * True if the participant is watching the road.
 	 */
-	private boolean eyesOnRoad;
+	//private boolean eyesOnRoad;
+	
+	private EyePositionDim eyesOnRoad;
 	
 	/**
 	 * Duration of the position measured in frames. 
@@ -100,47 +117,65 @@ public class PositionTuple
 		return this.frame;
 	}
 	
+	//good
 	/**
 	 * Setter for the variable autopilotOn.
 	 * @param autopilotOn True if the autopilot is turned on.
 	 */
 	public void setAutopilotOn(boolean autopilotOn)
 	{
-		this.autopilotOn = autopilotOn;
+		AutopilotDim a = new AutopilotDim();
+		if(autopilotOn)
+		{
+			a.setValue(1);
+		}
+		else
+		{
+			a.setValue(2);
+		}
+		this.autopilotOn = a;
 	}
 	
+	//good
 	/**
 	 * Getter for the variable autopulotOn.
 	 * @return True if the autopilot is turned on.
 	 */
-	public boolean getAutopilotOn()
+	public AutopilotDim getAutopilotOn()
 	{
 		return this.autopilotOn;
 	}
 	
+	//good
 	/**
 	 * Setter for the variable numHands.
 	 * @param numHands The number of hands on the steering wheel.
 	 */
 	public void setNumHands(int numHands)
 	{
-		this.numHands = numHands;
+		NumHandsDim nH = new NumHandsDim();
+		nH.setValue(numHands);
+		this.numHands = nH;
+		
 	}
 	
+	//good
 	/**
 	 * Getter for the variable numHands.
 	 * @return The number of hands on the steering wheel.
 	 */
-	public int getNumHands()
+	public NumHandsDim getNumHands()
 	{
 		return this.numHands;
 	}
+	
+	//DO THIS NEXT
 	
 	/**
 	 * Setter for the variable handPlacement.
 	 * @param handPlacement Position of a hand based on a ranking system. The larger the number, the worse the position.
 	 */
-	public void setHandPlacement(int handPlacement)
+	public void setHandPlacement(HandPlacementDim handPlacement)
 	{
 		this.handPlacement = handPlacement;
 	}
@@ -149,7 +184,7 @@ public class PositionTuple
 	 * Getter for the variable handPlacement.
 	 * @return Position of a hand based on a ranking system. The larger the number, the worse the position.
 	 */
-	public int getHandPlacement()
+	public HandPlacementDim getHandPlacement()
 	{
 		return this.handPlacement;
 	}
@@ -158,7 +193,7 @@ public class PositionTuple
 	 * Setter for the variable footPlacement.
 	 * @param footPlacement Position of their right foot based on a ranking system. The larger the number, the worse the position.
 	 */
-	public void setFootPlacement(int footPlacement)
+	public void setFootPlacement(FootPlacementDim footPlacement)
 	{
 		this.footPlacement = footPlacement;
 	}
@@ -167,7 +202,7 @@ public class PositionTuple
 	 * Getter for the variable footPlacement.
 	 * @return Position of their right foot based on a ranking system. The larger the number, the worse the position.
 	 */
-	public int getFootPlacement()
+	public FootPlacementDim getFootPlacement()
 	{
 		return this.footPlacement;
 	}
@@ -176,7 +211,7 @@ public class PositionTuple
 	 * Setter for the variable eyesOnRoad.
 	 * @param eyesOnRoad True if the participant is watching the road.
 	 */
-	public void setEyesOnRoad(boolean eyesOnRoad)
+	public void setEyesOnRoad(EyePositionDim eyesOnRoad)
 	{
 		this.eyesOnRoad = eyesOnRoad;
 	}
@@ -185,7 +220,7 @@ public class PositionTuple
 	 * Getter for the variable getEyesOnRoad.
 	 * @return True if the participant is watching the road.
 	 */
-	public boolean getEyesOnRoad()
+	public EyePositionDim getEyesOnRoad()
 	{
 		return this.eyesOnRoad;
 	}
